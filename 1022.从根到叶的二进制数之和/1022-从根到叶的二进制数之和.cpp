@@ -4,30 +4,34 @@
  *     int val;
  *     TreeNode *left;
  *     TreeNode *right;
- *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
  * };
  */
 class Solution {
 public:
     int sumRootToLeaf(TreeNode* root) {
-        int base = 10^9 + 7;
         int sum = 0;
-        dfs(root, base, sum, 0);
+        int cur = 0;
+        dfs(root, sum, cur);
         return sum;
     }
 
-    void dfs(TreeNode* root, int base, int& sum, long long tmp) {
+    void dfs(TreeNode* root, int& sum, int cur) {
         if( !root ) {
             return;
         }
 
-        tmp = 2*tmp + root->val;
+        cur = cur*2 + root->val;
+        cout << cur << endl;
+
         if( !root->left && !root->right ) {
-            sum += tmp;
+            sum += cur;
+            return;
         }
 
-        dfs(root->left, base, sum, tmp);
-        dfs(root->right, base, sum, tmp);
+        dfs(root->left, sum, cur);
+        dfs(root->right, sum, cur);
     }
-
 };
